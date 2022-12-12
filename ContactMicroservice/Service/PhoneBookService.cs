@@ -6,27 +6,27 @@ namespace ContactMicroservice.Service
 {
     public class PhoneBookService : IPhoneBookService
     {
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Get(int id)
+        public async Task Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetList()
+        public async Task GetList()
         {
             throw new NotImplementedException();
         }
 
-        public Task Save(PhoneBookItemAddDto item)
+        public async Task Save(PhoneBookItemAddDto item)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(int id, string key, string value)
+        public async Task Update(int id, string key, string value)
         {
             throw new NotImplementedException();
         }

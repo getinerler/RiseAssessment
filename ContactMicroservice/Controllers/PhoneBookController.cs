@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContactMicroservice.Dtos;
+using ContactMicroservice.Service;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
@@ -8,9 +10,11 @@ namespace ContactMicroservice.Controllers
     [Route("[controller]")]
     public class PhoneBookController : ControllerBase
     {
-        public PhoneBookController()
-        {
+        private readonly IPhoneBookService _service;
 
+        public PhoneBookController(IPhoneBookService service)
+        {
+            _service = service;
         }
 
         [HttpGet]
@@ -18,7 +22,7 @@ namespace ContactMicroservice.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(await _service.GetList());
             }
             catch (Exception ex)
             {
@@ -30,7 +34,7 @@ namespace ContactMicroservice.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(await _service.Get(id));
             }
             catch (Exception ex)
             {
@@ -39,10 +43,11 @@ namespace ContactMicroservice.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Save()
+        public async Task<IActionResult> Save(PhoneBookItemAddDto item)
         {
             try
             {
+                await _service.Save(item);
                 return Ok();
             }
             catch (Exception ex)
@@ -56,6 +61,7 @@ namespace ContactMicroservice.Controllers
         {
             try
             {
+                await _service.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -69,6 +75,7 @@ namespace ContactMicroservice.Controllers
         {
             try
             {
+                await _service.Update(id, key, value);
                 return Ok();
             }
             catch (Exception ex)
