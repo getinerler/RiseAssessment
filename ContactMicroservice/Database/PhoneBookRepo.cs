@@ -18,7 +18,7 @@ namespace ContactMicroservice.Database
             _db = db;
         }
 
-        public async Task Add(PhoneBookItemAddDto req)
+        public async Task<PhoneBookItem> Add(PhoneBookItemAddDto req)
         {
             PhoneBookItem item = new PhoneBookItem()
             {
@@ -33,6 +33,8 @@ namespace ContactMicroservice.Database
 
             await _db.AddAsync(item);
             await _db.SaveChangesAsync();
+
+            return item;
         }
 
         public async Task Delete(Guid guid)

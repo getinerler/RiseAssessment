@@ -10,7 +10,7 @@ namespace ContactMicroservice.Database
     {
         public Task<List<PhoneBookItem>> GetItems();
         public Task<PhoneBookItem> GetItem(Guid guid);
-        public Task Add(PhoneBookItemAddDto req);
+        public Task<PhoneBookItem> Add(PhoneBookItemAddDto req);
         public Task Delete(Guid guid);
         public Task Update(Guid guid, string key, string value);
     }
