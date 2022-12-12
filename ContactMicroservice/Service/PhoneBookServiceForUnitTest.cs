@@ -1,0 +1,140 @@
+﻿using ContactMicroservice.Dtos;
+using ContactMicroservice.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ContactMicroservice.Service
+{
+    public class PhoneBookServiceForUnitTest : IPhoneBookService
+    {
+        private readonly List<PhoneBookItem> list;
+
+        public PhoneBookServiceForUnitTest()
+        {
+            list = new List<PhoneBookItem>()
+            {
+                new PhoneBookItem()
+                {
+                    PhoneBookItemId = 1,
+                    Guid = new Guid("ec2d9314-34e1-4f4e-9d03-a877920dfb5a"),
+                    Name = "Paul",
+                    Surname = "McCartney",
+                    Firm = "Beatles",
+                    Phone = "+905301533020",
+                    Mail = "paulmccartney@beatles.com",
+                    Country = "England",
+                    City = "Liverpool",
+                    CreatedDate = new DateTime(1942, 06, 18),
+                    IsDeleted = false
+                },
+                new PhoneBookItem()
+                {
+                    PhoneBookItemId = 2,
+                    Guid = new Guid("3a165fef-1b99-4077-8885-f8f74e180cb1"),
+                    Name = "John",
+                    Surname = "Lennon",
+                    Firm = "Beatles",
+                    Phone = "+905301533010",
+                    Mail = "johnlennon@beatles.com",
+                    Country = "England",
+                    City = "Liverpool",
+                    CreatedDate = new DateTime(1940, 10, 09),
+                    IsDeleted = false
+                },
+                new PhoneBookItem()
+                {
+                    PhoneBookItemId = 3,
+                    Guid = new Guid("06a25f72-3e79-49ce-a95f-ab982ee43ded"),
+                    Name = "Mick",
+                    Surname = "Jagger",
+                    Firm = "Rolling Stones",
+                    Phone = "+905301533020",
+                    Mail = "paulmccartney@beatles.com",
+                    Country = "England",
+                    City = "London",
+                    CreatedDate = new DateTime(2020, 01, 02),
+                    IsDeleted = false
+                }
+            };
+        }
+
+        public async Task Delete(int id)
+        {
+            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            if (item == null)
+            {
+                throw new Exception("No item with id: " + id);
+            }
+            list.Remove(item);
+        }
+
+        public async Task<PhoneBookItemDetailDto> Get(int id)
+        {
+            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            if (item == null)
+            {
+                throw new Exception("No item with id: " + id);
+            }
+            return new PhoneBookItemDetailDto()
+            {
+                Guid = item.Guid,
+                Name = item.Name,
+                Surname = item.Surname,
+                Firm = item.Firm,
+                Phone = item.Phone,
+                Mail = item.Mail,
+                Country = item.Country,
+                City = item.City,
+            };
+        }
+
+        public async Task<List<PhoneBookItemForListDto>> GetList()
+        {
+            return list
+                .Select(x => new PhoneBookItemForListDto()
+                {
+                    Name = x.Name + " " + x.Surname,
+                    Guid = x.Guid
+                })
+                .ToList();
+        }
+
+        public async Task Save(PhoneBookItemAddDto item)
+        {
+            PhoneBookItem newItem = new PhoneBookItem()
+            {
+                PhoneBookItemId = list.Max(x => x.PhoneBookItemId) + 1,
+                Guid = item.Guid,
+                Name = item.Name,
+                Surname = item.Surname,
+                Firm = item.Firm,
+                Phone = item.Phone,
+                Mail = item.Mail,
+                Country = item.Country,
+                City = item.City,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false,
+            };
+            list.Add(newItem);
+        }
+
+        public async Task Update(int id, string key, string value)
+        {
+            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            if (item == null)
+            {
+                throw new Exception("No item with id: " + id);
+            }
+
+            if (key == "Name") item.Name = value;
+            if (key == "Surname") item.Surname = value;
+            if (key == "Firm") item.Firm = value;
+            if (key == "Phone") item.Phone = value;
+            if (key == "Mail") item.Mail = value;
+            if (key == "Country") item.Country = value;
+            if (key == "City") item.City = value;
+        }
+    }
+}

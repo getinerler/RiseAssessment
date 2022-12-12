@@ -1,5 +1,6 @@
 ﻿using ContactMicroservice.Dtos;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContactMicroservice.Service
@@ -11,12 +12,12 @@ namespace ContactMicroservice.Service
             throw new NotImplementedException();
         }
 
-        public async Task Get(int id)
+        public async Task<PhoneBookItemDetailDto> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task GetList()
+        public async Task<List<PhoneBookItemForListDto>> GetList()
         {
             throw new NotImplementedException();
         }
