@@ -7,12 +7,12 @@ namespace ContactMicroservice.Service
 {
     public class PhoneBookService : IPhoneBookService
     {
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PhoneBookItemDetailDto> Get(int id)
+        public async Task<PhoneBookItemDetailDto> Get(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -22,12 +22,12 @@ namespace ContactMicroservice.Service
             throw new NotImplementedException();
         }
 
-        public async Task Save(PhoneBookItemAddDto item)
+        public async Task<Guid> Save(PhoneBookItemAddDto item)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Update(int id, string key, string value)
+        public async Task Update(Guid id, string key, string value)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
 ﻿using ContactMicroservice.Dtos;
+using ContactMicroservice.Exceptions;
 using ContactMicroservice.Models;
 using System;
 using System.Collections.Generic;
@@ -60,22 +61,22 @@ namespace ContactMicroservice.Service
             };
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Guid guid)
         {
-            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            PhoneBookItem item = list.FirstOrDefault(x => x.Guid.Equals(guid));
             if (item == null)
             {
-                throw new Exception("No item with id: " + id);
+                throw new ItemNotFoundException(guid);
             }
             list.Remove(item);
         }
 
-        public async Task<PhoneBookItemDetailDto> Get(int id)
+        public async Task<PhoneBookItemDetailDto> Get(Guid guid)
         {
-            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            PhoneBookItem item = list.FirstOrDefault(x => x.Guid.Equals(guid));
             if (item == null)
             {
-                throw new Exception("No item with id: " + id);
+                throw new ItemNotFoundException(guid);
             }
             return new PhoneBookItemDetailDto()
             {
@@ -101,12 +102,14 @@ namespace ContactMicroservice.Service
                 .ToList();
         }
 
-        public async Task Save(PhoneBookItemAddDto item)
+        public async Task<Guid> Save(PhoneBookItemAddDto item)
         {
+            Guid newGuid = Guid.NewGuid();
+
             PhoneBookItem newItem = new PhoneBookItem()
             {
                 PhoneBookItemId = list.Max(x => x.PhoneBookItemId) + 1,
-                Guid = item.Guid,
+                Guid = newGuid,
                 Name = item.Name,
                 Surname = item.Surname,
                 Firm = item.Firm,
@@ -118,14 +121,15 @@ namespace ContactMicroservice.Service
                 IsDeleted = false,
             };
             list.Add(newItem);
+            return newItem.Guid;
         }
 
-        public async Task Update(int id, string key, string value)
+        public async Task Update(Guid guid, string key, string value)
         {
-            PhoneBookItem item = list.FirstOrDefault(x => x.PhoneBookItemId == id);
+            PhoneBookItem item = list.FirstOrDefault(x => x.Guid.Equals(guid));
             if (item == null)
             {
-                throw new Exception("No item with id: " + id);
+                throw new Exception("No item with guid: " + guid);
             }
 
             if (key == "Name") item.Name = value;

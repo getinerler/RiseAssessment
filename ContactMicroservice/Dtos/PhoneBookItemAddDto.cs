@@ -12,7 +12,6 @@ namespace ContactMicroservice.Dtos
         private string _country;
         private string _city;
 
-        public Guid Guid { get; set; }
         public string Name 
         {
             get
