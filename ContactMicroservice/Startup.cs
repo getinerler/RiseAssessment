@@ -26,6 +26,8 @@ namespace ContactMicroservice
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IPhoneBookService, PhoneBookService>();
+
+            services.AddTransient<IPhoneBookRepo, PhoneBookRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
