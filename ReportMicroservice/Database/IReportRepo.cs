@@ -9,7 +9,6 @@ namespace ReportMicroservice.Database
     public interface IReportRepo
     {
         Task<Report> CreateReport();
-        Task SetPath(int id, string path);
         Task<Report> GetReport(Guid guid);
         Task<List<ReportForListDto>> GetReports();
     }

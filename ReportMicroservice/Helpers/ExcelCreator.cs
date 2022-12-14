@@ -90,7 +90,7 @@ namespace ReportMicroservice.Helpers
             }
         }
 
-        public void CreateCell(IRow row, int index, decimal value, ICellStyle style = null)
+        private void CreateCell(IRow row, int index, decimal value, ICellStyle style = null)
         {
             ICell Cell = row.CreateCell(index);
             Cell.SetCellType(CellType.Numeric);

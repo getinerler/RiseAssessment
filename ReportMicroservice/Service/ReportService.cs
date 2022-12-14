@@ -3,6 +3,7 @@ using ReportMicroservice.Dtos;
 using ReportMicroservice.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Service
@@ -28,12 +29,12 @@ namespace ReportMicroservice.Service
                 };
             }
 
+            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
+
             ReportInfo info = new ReportInfo()
             {
-                Status = string.IsNullOrEmpty(report.Path) ? 
-                    ReportStatus.Processing : 
-                    ReportStatus.Completed,
-                Path = report.Path
+                Status = !report.ExcelFileReady ? ReportStatus.Processing : ReportStatus.Completed,
+                Path = path + report.Guid + ".xlsx"
             };
 
             return info;

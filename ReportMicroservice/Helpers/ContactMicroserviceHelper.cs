@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ReportMicroservice.Dtos;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -8,6 +9,13 @@ namespace ReportMicroservice.Helpers
     public class ContactMicroserviceHelper
     {
         private readonly string url = "localhost:3000/ContactMicroservice/";
+
+        public List<PhoneBookItem> GetPhoneBookItems(RabbitMqMessage message)
+        {
+            string info = Get($"{url}/GetPhoneBookItems?country={message.Country}&city={message.City}");
+            List<PhoneBookItem> items = JsonConvert.DeserializeObject<List<PhoneBookItem>>(info);
+            return items;
+        }
 
         public ContactMicroserviceReportItem[] GetInfo()
         {
