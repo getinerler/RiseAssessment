@@ -41,10 +41,16 @@ namespace ReportMicroservice
 
             app.UseAuthorization();
 
+            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "ExcelFiles/")),
+                FileProvider = new PhysicalFileProvider(path),
                 RequestPath = new PathString("/excel")
             });
 

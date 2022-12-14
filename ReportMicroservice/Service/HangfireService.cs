@@ -26,11 +26,6 @@ namespace ReportMicroservice.Service
         {
             string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
             foreach (RabbitMqMessage item in requests)
             {
                 ContactMicroserviceHelper contactMicroserviceHelper = new ContactMicroserviceHelper();
