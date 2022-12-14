@@ -17,15 +17,6 @@ namespace ReportMicroservice.Helpers
             return items;
         }
 
-        public ContactMicroserviceReportItem[] GetInfo()
-        {
-            string info = Get(url + "/GetReportInfo");
-
-            ContactMicroserviceReportItem[] items =
-                JsonConvert.DeserializeObject<ContactMicroserviceReportItem[]>(info);
-            return items;
-        }
-
         private string Get(string uri)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);

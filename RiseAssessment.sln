@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiseAssessment", "RiseAssessment\RiseAssessment.csproj", "{BBAB1313-4F3F-4C6A-87C8-81F35D2E2F39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportMicroservice", "ReportMicroservice\ReportMicroservice.csproj", "{52AA5608-D240-461A-9988-BC5EE39AFCDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportMicroservice", "ReportMicroservice\ReportMicroservice.csproj", "{52AA5608-D240-461A-9988-BC5EE39AFCDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportMicroserviceUnitTests", "ReportMicroserviceUnitTests\ReportMicroserviceUnitTests.csproj", "{66A5E177-3B0C-4702-ACA4-B4A63BC1B1B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{52AA5608-D240-461A-9988-BC5EE39AFCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52AA5608-D240-461A-9988-BC5EE39AFCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52AA5608-D240-461A-9988-BC5EE39AFCDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A5E177-3B0C-4702-ACA4-B4A63BC1B1B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A5E177-3B0C-4702-ACA4-B4A63BC1B1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A5E177-3B0C-4702-ACA4-B4A63BC1B1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A5E177-3B0C-4702-ACA4-B4A63BC1B1B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
