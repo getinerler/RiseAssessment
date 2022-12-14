@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ReportMicroservice.Database
 {
-    public interface IReportRepository
+    public interface IReportRepo
     {
         public Task SetPath(int id, string path);
         public Task<Report> GetReport(Guid guid);

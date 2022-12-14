@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ReportMicroservice.Exceptions;
 using ReportMicroservice.Models;
 using System;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace ReportMicroservice.Database
             Report report = await _db.Reports.FirstOrDefaultAsync(x => x.ReportId == id);
             if (report == null)
             {
-                throw new Exception();
+                throw new ItemNotFoundException();
             }
 
             report.Path = path;
