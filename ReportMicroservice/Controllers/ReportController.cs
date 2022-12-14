@@ -2,6 +2,7 @@
 using ReportMicroservice.Dtos;
 using ReportMicroservice.Service;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Controllers
@@ -24,6 +25,20 @@ namespace ReportMicroservice.Controllers
             {
                 ReportInfo info = await _service.GetReportInfo(guid);
                 return Ok(info);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("/reports")]
+        public async Task<IActionResult> GetReports()
+        {
+            try
+            {
+                List<ReportForListDto> reportList = await _service.GetReports();
+                return Ok(reportList);
             }
             catch (Exception ex)
             {

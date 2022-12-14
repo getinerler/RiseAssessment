@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ReportMicroservice.Dtos;
 using ReportMicroservice.Exceptions;
 using ReportMicroservice.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Database
@@ -18,6 +21,18 @@ namespace ReportMicroservice.Database
         public async Task<Report> GetReport(Guid guid)
         {
             return await _db.Reports.FirstOrDefaultAsync(x => x.Guid.Equals(guid));
+        }
+
+        public async Task<List<ReportForListDto>> GetReports()
+        {
+            return await _db.Reports
+                .Select(x => new ReportForListDto() 
+                {
+                    Guid = x.Guid,
+                    CreatedDate = x.CreatedDate,
+                    Path = x.Path
+                })
+                .ToListAsync();
         }
 
         public async Task SetPath(int id, string path)

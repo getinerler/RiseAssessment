@@ -2,6 +2,7 @@
 using ReportMicroservice.Dtos;
 using ReportMicroservice.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Service
@@ -36,6 +37,11 @@ namespace ReportMicroservice.Service
             };
 
             return info;
+        }
+
+        public async Task<List<ReportForListDto>> GetReports()
+        {
+            return await _repo.GetReports();
         }
     }
 }

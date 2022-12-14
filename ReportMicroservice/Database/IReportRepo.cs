@@ -1,5 +1,7 @@
-﻿using ReportMicroservice.Models;
+﻿using ReportMicroservice.Dtos;
+using ReportMicroservice.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Database
@@ -8,5 +10,6 @@ namespace ReportMicroservice.Database
     {
         public Task SetPath(int id, string path);
         public Task<Report> GetReport(Guid guid);
+        Task<List<ReportForListDto>> GetReports();
     }
 }
