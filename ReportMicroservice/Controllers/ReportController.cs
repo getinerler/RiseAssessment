@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReportMicroservice.Dtos;
+using ReportMicroservice.Service;
 using System;
 using System.Threading.Tasks;
 
@@ -8,9 +10,11 @@ namespace ReportMicroservice.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        public ReportController()
-        {
+        private readonly IReportService _service;
 
+        public ReportController(IReportService service)
+        {
+            _service = service;
         }
 
         [HttpGet]
@@ -18,7 +22,8 @@ namespace ReportMicroservice.Controllers
         {
             try
             {
-                return Ok();
+                ReportInfo info = await _service.GetReportInfo(guid);
+                return Ok(info);
             }
             catch (Exception ex)
             {
