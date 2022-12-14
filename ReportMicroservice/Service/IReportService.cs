@@ -9,5 +9,6 @@ namespace ReportMicroservice.Service
     {
         public Task<ReportInfo> GetReportInfo(Guid guid);
         public Task<List<ReportForListDto>> GetReports();
+        public Task<Guid> RequestReport(string country, string city);
     }
 }

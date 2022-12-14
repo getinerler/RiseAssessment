@@ -39,6 +39,13 @@ namespace ReportMicroservice.Service
             return info;
         }
 
+        public async Task<Guid> RequestReport(string country, string city)
+        {
+            Report newReport = await _repo.CreateReport();
+            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid, country, city);
+            return newReport.Guid;
+        }
+
         public async Task<List<ReportForListDto>> GetReports()
         {
             return await _repo.GetReports();

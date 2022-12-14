@@ -8,8 +8,9 @@ namespace ReportMicroservice.Database
 {
     public interface IReportRepo
     {
-        public Task SetPath(int id, string path);
-        public Task<Report> GetReport(Guid guid);
+        Task<Report> CreateReport();
+        Task SetPath(int id, string path);
+        Task<Report> GetReport(Guid guid);
         Task<List<ReportForListDto>> GetReports();
     }
 }

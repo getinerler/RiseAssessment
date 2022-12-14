@@ -32,6 +32,20 @@ namespace ReportMicroservice.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RequestReport(string country, string city)
+        {
+            try
+            {
+                Guid guid = await _service.RequestReport(country, city);
+                return Ok(guid);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("/reports")]
         public async Task<IActionResult> GetReports()
         {

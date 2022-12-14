@@ -17,6 +17,20 @@ namespace ReportMicroservice.Database
         {
             _db = db;
         }
+        
+        public async Task<Report> CreateReport()
+        {
+            Report newReport = new Report()
+            {
+                CreatedDate = DateTime.Now,
+                Guid = Guid.NewGuid()
+            };
+
+            await _db.AddAsync(newReport);
+            await _db.SaveChangesAsync();
+
+            return newReport;
+        }
 
         public async Task<Report> GetReport(Guid guid)
         {
