@@ -1,4 +1,5 @@
 using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ReportMicroservice.Database;
 using ReportMicroservice.Hangfire;
+using ReportMicroservice.Service;
 using System;
 using System.IO;
 
@@ -28,12 +30,16 @@ namespace ReportMicroservice
         {
             services.AddControllers();
 
+            services.AddTransient<IReportService, ReportService>();
+
+            services.AddTransient<IReportRepo, ReportRepo>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report Microservice API", Version = "v1" });
             });
 
-            services.AddHangfire(x => x.UseSqlServerStorage(_config.GetConnectionString("DefaultConnection")));
+            services.AddHangfire(x => x.UsePostgreSqlStorage(_config.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<DataContext>(options =>
                options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
