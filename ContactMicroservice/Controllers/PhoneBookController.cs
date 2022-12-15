@@ -32,6 +32,7 @@ namespace ContactMicroservice.Controllers
             }
         }
 
+        [HttpGet("GetPhoneBookItem")]
         public async Task<IActionResult> Get(Guid guid)
         {
             try
