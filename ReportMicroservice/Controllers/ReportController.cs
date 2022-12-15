@@ -11,12 +11,10 @@ namespace ReportMicroservice.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly IHangfireService _hangfireService;
         private readonly IReportService _service;
 
-        public ReportController(IHangfireService hang, IReportService service)
+        public ReportController(IReportService service)
         {
-            _hangfireService = hang;
             _service = service;
         }
 
@@ -40,26 +38,6 @@ namespace ReportMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-        [HttpGet("bıdı")]
-        public async Task<IActionResult> Bıdı()
-        {
-            try
-            {
-
-                List<RabbitMqMessage> requests = await _hangfireService.GetRequests();
-
-                await _hangfireService.CreateExcelFiles(requests);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> RequestReport()

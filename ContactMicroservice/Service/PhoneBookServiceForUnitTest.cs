@@ -118,6 +118,34 @@ namespace ContactMicroservice.Service
             return resultList;
         }
 
+        public async Task<ReportInfoDto> GetReportInfo(Guid guid)
+        {
+            return new ReportInfoDto()
+            {
+                Path = "/path/example/excel.xlsx",
+                Status = "Completed"
+            };
+        }
+
+        public async Task<List<ReportForListItemDto>> GetReports()
+        {
+            List<ReportForListItemDto> items = new List<ReportForListItemDto>(100);
+            for (int i = 0; i < 100; i++)
+            {
+                items.Add(new ReportForListItemDto()
+                {
+                    CreatedDate = DateTime.Now,
+                    Guid = Guid.NewGuid()
+                });
+            }
+            return items;
+        }
+
+        public async Task<Guid> GetRequest()
+        {
+            return Guid.NewGuid();
+        }
+
         public async Task<Guid> Save(PhoneBookItemAddDto item)
         {
             Guid newGuid = Guid.NewGuid();

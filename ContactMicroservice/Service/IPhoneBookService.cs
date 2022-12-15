@@ -13,5 +13,9 @@ namespace ContactMicroservice.Service
         Task Delete(Guid id);
         Task Update(Guid id, string key, string value);
         Task<List<ReportInfoItemDto>> GetReportInfo();
+
+        Task<Guid> GetRequest();
+        Task<ReportInfoDto> GetReportInfo(Guid guid);
+        Task<List<ReportForListItemDto>> GetReports();
     }
 }

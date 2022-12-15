@@ -118,6 +118,62 @@ namespace ContactMicroservice.Controllers
             }
         }
 
+
+        //PhoneMicroservice Methods
+        [HttpGet("Request")]
+        public async Task<IActionResult> GetRequest()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                Guid newGuid = await _service.GetRequest();
+                return Ok(newGuid);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("reportStatus")]
+        public async Task<IActionResult> GetReportStatus()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                ReportInfoItemDto reportStatus = await _service.GetReportStatus();
+                return Ok(reportStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("reports")]
+        public async Task<IActionResult> GetReports()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                ReportInfoItemDto reportStatus = await _service.GetReports();
+                return Ok(reportStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         private string ModelError(ModelStateDictionary state)
         {
             foreach (var i in state.Values)

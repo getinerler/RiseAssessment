@@ -1,5 +1,6 @@
 ﻿using ContactMicroservice.Database;
 using ContactMicroservice.Dtos;
+using ContactMicroservice.Helpers;
 using ContactMicroservice.Models;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,22 @@ namespace ContactMicroservice.Service
         public async Task<List<ReportInfoItemDto>> GetReportInfo()
         {
             return await _repo.GetReportInfo();
+        }
+
+        //PhoneMicroservice Methods
+        public async Task<Guid> GetRequest()
+        {
+            return ReportMicroserviceHelper.RequestReport();
+        }
+
+        public async Task<ReportInfoDto> GetReportInfo(Guid guid)
+        {
+            return ReportMicroserviceHelper.GetInfo(guid);
+        }
+
+        public async Task<List<ReportForListItemDto>> GetReports() 
+        {
+            return ReportMicroserviceHelper.GetReports();
         }
 
         public async Task Update(Guid id, string key, string value)
