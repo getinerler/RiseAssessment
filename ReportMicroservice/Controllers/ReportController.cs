@@ -24,6 +24,13 @@ namespace ReportMicroservice.Controllers
             try
             {
                 ReportInfo info = await _service.GetReportInfo(guid);
+
+                if (!string.IsNullOrEmpty(info.Path))
+                {
+                    string location = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+                    info.Path = location + info.Path;
+                }
+
                 return Ok(info);
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
 {
     public class ReportInfo
     {
-        public ReportStatus Status { get; set; }
+        public string Status { get; set; }
         public string Path { get; set; }
     }
 

@@ -47,16 +47,16 @@ namespace ReportMicroservice.Service
             {
                 return new ReportInfo()
                 {
-                    Status = ReportStatus.NotQueued
+                    Status = ReportStatus.NotQueued.ToString()
                 };
             }
 
-            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
-
             ReportInfo info = new ReportInfo()
             {
-                Status = !report.ExcelFileReady ? ReportStatus.Processing : ReportStatus.Completed,
-                Path = path + report.Guid + ".xlsx"
+                Status = !report.ExcelFileReady ? 
+                    ReportStatus.Processing.ToString() : 
+                    ReportStatus.Completed.ToString(),
+                Path = report.ExcelFileReady ? "/ExcelFiles/" + report.Guid + ".xlsx" : ""
             };
 
             return info;
