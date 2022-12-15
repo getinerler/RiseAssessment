@@ -22,13 +22,16 @@ namespace ContactMicroservice.Database
         {
             PhoneBookItem item = new PhoneBookItem()
             {
+                Guid = Guid.NewGuid(),
                 Name = req.Name,
                 Surname = req.Surname,
                 Firm = req.Firm,
                 Phone = req.Phone,
                 Mail = req.Mail,
                 Country = req.Country,
-                City = req.City
+                City = req.City,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false
             };
 
             await _db.AddAsync(item);
