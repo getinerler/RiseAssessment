@@ -8,7 +8,6 @@ namespace ReportMicroservice.Service
     public interface IHangfireService
     {
         Task<List<RabbitMqMessage>> GetRequests();
-        Task CreateDatabaseObjects(List<RabbitMqMessage> requests);
         Task CreateExcelFiles(List<RabbitMqMessage> requests);
     }
 }

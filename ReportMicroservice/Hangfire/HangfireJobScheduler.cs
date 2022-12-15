@@ -13,7 +13,7 @@ namespace ReportMicroservice.Hangfire
         {
             RecurringJob.RemoveIfExists(nameof(GetReportRequestsJob));
             RecurringJob.AddOrUpdate<GetReportRequestsJob>(nameof(GetReportRequestsJob),
-              job => job.Run(JobCancellationToken.Null, null), Cron.MinuteInterval(3));
+              job => job.Run(JobCancellationToken.Null, null), Cron.MinuteInterval(1));
         }
     }
 }

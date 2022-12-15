@@ -5,6 +5,6 @@ namespace ReportMicroservice.Database
 {
     public interface IHangfireRepo
     {
-        Task UpdateStatusAndPath(Guid guid);
+        Task UpdateStatus(Guid guid);
     }
 }

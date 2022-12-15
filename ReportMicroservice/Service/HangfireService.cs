@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReportMicroservice.Service
 {
-    public class HangfireService
+    public class HangfireService : IHangfireService
     {
 
         private readonly IHangfireRepo _repo;
@@ -24,7 +24,7 @@ namespace ReportMicroservice.Service
 
         public async Task CreateExcelFiles(List<RabbitMqMessage> requests)
         {
-            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFiles");
 
             foreach (RabbitMqMessage item in requests)
             {
@@ -32,8 +32,9 @@ namespace ReportMicroservice.Service
                 List<PhoneBookItem> phoneBookItems = contactMicroserviceHelper.GetPhoneBookItems(item);
                 ExcelCreator creator = new ExcelCreator(phoneBookItems);
                 byte[] file = creator.GetFile();
-                File.WriteAllBytes(path + item.Guid + ".xlsx", file);
-                _repo.UpdateStatusAndPath(item.Guid);
+                string excelPath = Path.Combine(path, item.Guid + ".xlsx");
+                File.WriteAllBytes(excelPath, file);
+                await _repo.UpdateStatus(item.Guid);
             }
         }
     }

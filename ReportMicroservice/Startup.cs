@@ -35,8 +35,10 @@ namespace ReportMicroservice
             services.AddDbContext<DataContext>(options =>
                options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IHangfireService, HangfireService>();
             services.AddTransient<IReportService, ReportService>();
-
+            
+            services.AddTransient<IHangfireRepo, HangfireRepo>();
             services.AddTransient<IReportRepo, ReportRepo>();
 
             services.AddSwaggerGen(c =>
@@ -65,23 +67,14 @@ namespace ReportMicroservice
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ReportMicroserviceApi");
             });
 
-            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFiles");
 
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            var documentOptions = new BackgroundJobServerOptions
-            {
-                ServerName = string.Format("{0}:Server", Environment.MachineName),
-                WorkerCount = 5,
-                Queues = new[] { "management", "DEFAULT" }
-            };
-
-
-            app.UseHangfireServer(documentOptions);
-
+            app.UseHangfireServer();
             app.UseHangfireDashboard("/hangfire");
 
             HangfireJobScheduler.ScheduleJobs();
@@ -94,7 +87,7 @@ namespace ReportMicroservice
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(path),
-                RequestPath = new PathString("/excel")
+                RequestPath = new PathString("/ExcelFiles")
             });
 
             app.UseEndpoints(endpoints =>
