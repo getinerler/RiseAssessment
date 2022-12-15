@@ -23,17 +23,18 @@ namespace ContactMicroservice
         {
             services.AddControllers();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contract Microservice API", Version = "v1" });
-            });
-
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IPhoneBookService, PhoneBookService>();
 
             services.AddTransient<IPhoneBookRepo, PhoneBookRepo>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contract Microservice API", Version = "v1" });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

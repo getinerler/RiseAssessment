@@ -30,6 +30,11 @@ namespace ReportMicroservice
         {
             services.AddControllers();
 
+            services.AddHangfire(x => x.UsePostgreSqlStorage(_config.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<DataContext>(options =>
+               options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<IReportService, ReportService>();
 
             services.AddTransient<IReportRepo, ReportRepo>();
@@ -38,11 +43,6 @@ namespace ReportMicroservice
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report Microservice API", Version = "v1" });
             });
-
-            services.AddHangfire(x => x.UsePostgreSqlStorage(_config.GetConnectionString("DefaultConnection")));
-
-            services.AddDbContext<DataContext>(options =>
-               options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
