@@ -12,5 +12,6 @@ namespace ContactMicroservice.Service
         Task<Guid> Save(PhoneBookItemAddDto item);
         Task Delete(Guid id);
         Task Update(Guid id, string key, string value);
+        Task<List<ReportInfoItemDto>> GetReportInfo();
     }
 }

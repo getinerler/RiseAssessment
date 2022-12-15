@@ -112,5 +112,21 @@ namespace ContactMicroservice.Database
 
             await _db.SaveChangesAsync();
         }
+
+        public async Task<List<ReportInfoItemDto>> GetReportInfo()
+        {
+            var list = await
+                (from phones in _db.PhoneBookItems
+                 group phones by new { phones.Country, phones.City } into g
+                 select new ReportInfoItemDto
+                 {
+                     City = g.Key.City,
+                     Country = g.Key.Country,
+                     Count = g.Count()
+                 })
+                 .ToListAsync();
+
+            return list;
+        }
     }
 }

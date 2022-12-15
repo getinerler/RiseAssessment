@@ -58,6 +58,11 @@ namespace ContactMicroservice.Service
             return newItem.Guid;
         }
 
+        public async Task<List<ReportInfoItemDto>> GetReportInfo()
+        {
+            return await _repo.GetReportInfo();
+        }
+
         public async Task Update(Guid id, string key, string value)
         {
             await _repo.Update(id, key, value);

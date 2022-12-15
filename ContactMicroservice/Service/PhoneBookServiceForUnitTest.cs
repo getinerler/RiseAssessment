@@ -102,6 +102,22 @@ namespace ContactMicroservice.Service
                 .ToList();
         }
 
+        public async Task<List<ReportInfoItemDto>> GetReportInfo()
+        {
+            var resultList =
+                (from phones in list
+                 group phones by new { phones.Country, phones.City } into g
+                 select new ReportInfoItemDto
+                 {
+                     City = g.Key.City,
+                     Country = g.Key.Country,
+                     Count = g.Count()
+                 })
+                 .ToList();
+
+            return resultList;
+        }
+
         public async Task<Guid> Save(PhoneBookItemAddDto item)
         {
             Guid newGuid = Guid.NewGuid();

@@ -4,6 +4,7 @@ using ContactMicroservice.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContactMicroservice.Controllers
@@ -92,6 +93,24 @@ namespace ContactMicroservice.Controllers
                 }
                 await _service.Update(guid, key, value);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ReportInfo")]
+        public async Task<IActionResult> GetReportInfo()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                List<ReportInfoItemDto> list = await _service.GetReportInfo();
+                return Ok(list);
             }
             catch (Exception ex)
             {

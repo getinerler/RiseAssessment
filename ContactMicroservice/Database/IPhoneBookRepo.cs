@@ -8,10 +8,11 @@ namespace ContactMicroservice.Database
 {
     public interface IPhoneBookRepo
     {
-        public Task<List<PhoneBookItem>> GetItems();
-        public Task<PhoneBookItem> GetItem(Guid guid);
-        public Task<PhoneBookItem> Add(PhoneBookItemAddDto req);
-        public Task Delete(Guid guid);
-        public Task Update(Guid guid, string key, string value);
+        Task<List<PhoneBookItem>> GetItems();
+        Task<PhoneBookItem> GetItem(Guid guid);
+        Task<PhoneBookItem> Add(PhoneBookItemAddDto req);
+        Task Delete(Guid guid);
+        Task Update(Guid guid, string key, string value);
+        Task<List<ReportInfoItemDto>> GetReportInfo();
     }
 }
