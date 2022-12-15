@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,17 +9,19 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ReportMicroservice.Database;
+using ReportMicroservice.Hangfire;
+using System;
 using System.IO;
 
 namespace ReportMicroservice
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration _config { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -30,8 +33,10 @@ namespace ReportMicroservice
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report Microservice API", Version = "v1" });
             });
 
+            services.AddHangfire(x => x.UseSqlServerStorage(_config.GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<DataContext>(options =>
-               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+               options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,6 +65,25 @@ namespace ReportMicroservice
             {
                 Directory.CreateDirectory(path);
             }
+
+            var documentOptions = new BackgroundJobServerOptions
+            {
+                ServerName = string.Format("{0}:Server", Environment.MachineName),
+                WorkerCount = 5,
+                Queues = new[] { "management", "DEFAULT" }
+            };
+
+
+            app.UseHangfireServer(documentOptions);
+
+            app.UseHangfireDashboard("/hangfire");
+
+            HangfireJobScheduler.ScheduleJobs();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.UseStaticFiles(new StaticFileOptions()
             {
