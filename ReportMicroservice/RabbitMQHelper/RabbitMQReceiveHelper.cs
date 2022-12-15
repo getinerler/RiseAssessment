@@ -10,7 +10,7 @@ namespace ReportMicroservice.RabbitMQHelper
 {
     public class RabbitMQReceiveHelper
     {
-        public static void SendNewRequest(Guid guid, string country, string city)
+        public static void SendNewRequest(Guid guid)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             var connection = factory.CreateConnection();
@@ -22,12 +22,7 @@ namespace ReportMicroservice.RabbitMQHelper
                                  autoDelete: false,
                                  arguments: null);
 
-            string message = JsonConvert.SerializeObject(new RabbitMqMessage()
-            {
-                Guid = guid,
-                Country = country,
-                City = city
-            });
+            string message = JsonConvert.SerializeObject(new RabbitMqMessage() { Guid = guid });
             var body = Encoding.UTF8.GetBytes(message);
 
             channel.BasicPublish(exchange: "",

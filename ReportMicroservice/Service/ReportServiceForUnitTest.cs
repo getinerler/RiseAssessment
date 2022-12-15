@@ -2,7 +2,6 @@
 using ReportMicroservice.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,7 +61,7 @@ namespace ReportMicroservice.Service
             return info;
         }
 
-        public async Task<Guid> RequestReport(string country, string city)
+        public async Task<Guid> RequestReport()
         {
             Report newReport = new Report()
             {
@@ -72,7 +71,7 @@ namespace ReportMicroservice.Service
                 Guid = Guid.NewGuid()
             };
 
-            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid, country, city);
+            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid);
             return newReport.Guid;
         }
 
