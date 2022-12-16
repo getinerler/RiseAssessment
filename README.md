@@ -2,7 +2,7 @@
 
 Rise Firması için Assessment. 
 
-Birbiriyle REST üzerinden iletişim kuran iki mikroservis. ContactMicroservis bir telefon rehberi için gerekli bilgileri tutuyor, bu mikroserviste ekleme, silme güncelleştirme yapılabiliyor.</br> Rapor gerekince ReportMicroservis ile iletişim kuruyor. ReportMicroservis, rapor taleplerini RabbitMQ'ya iletiyor. Hangfire ile dakikada bir defa RabbitMQ'dan biriken rapor taleplerini çekerek işleme alıyor. Rapor taleplerinin son durumunu da gerektiğinde ContactMicroservis'e iletiyor.
+Birbiriyle REST üzerinden iletişim kuran iki mikroservis. ContactMicroservis bir telefon rehberi için gerekli bilgileri tutuyor. Bu mikroserviste ekleme, silme güncelleştirme yapılabiliyor.</br> Rapor gerekince ContactMicroservis, ReportMicroservis ile iletişim kuruyor. ReportMicroservis, rapor taleplerini RabbitMQ'ya iletiyor. Hangfire ile dakikada bir defa RabbitMQ'dan biriken rapor taleplerini çekerek işleme alıyor. Rapor taleplerinin son durumunu da gerektiğinde ContactMicroservis'e iletiyor.
 
 ## Çalıştırma
 
@@ -25,4 +25,4 @@ GET /PhoneBook​/Request           | Rapor talebinde bulunur. Hazırlanacak rap
 GET ​/PhoneBook​/ReportInfo        | Hazırlanmış raporlar listesi döndürür.</br>
 GET /PhoneBook​/reportStatus      | Hazırlanmakta olan rapora ait bilgileri döndürür.</br>
 
-6. Bir rapor şu şekilde oluşturuluyor: Rapor talebinde bulunmak için /PhoneBook/Request metodu çalıştırılıyor. Bir rapor talebinde bulunuluyor. Oluşturulacak olan raporun Guid'i geri döndürülüyor ve talep kuyruğa alınıyor.(RabbitMQ). Ardından Rapor oluşana kadar /PhoneBook/ReportStatus endpoint'inde statü sorgulaması yapmak gerekiyor. Rapor tamamlandığında statüsü Completed olacak ve oluşturulan Excel dosyasının yolu iletilecek.
+6. Bir rapor şu şekilde oluşturuluyor: Rapor talebinde bulunmak için /PhoneBook/Request metodu çalıştırılıyor. Bir rapor talebinde bulunuluyor. Oluşturulacak olan raporun Guid'i bu talep cevabında kullanıcıya iletilir. Ardından rapor oluşana kadar /PhoneBook/ReportStatus endpoint'inde ara ara statü sorgulaması yapmak gerekiyor. Rapor tamamlandığında statüsü Completed olacak. Statü sorgulamasında Completed durumunda oluşan Excel dosyasının yolu da iletilir.
