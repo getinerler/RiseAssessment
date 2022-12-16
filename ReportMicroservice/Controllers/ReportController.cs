@@ -26,7 +26,7 @@ namespace ReportMicroservice.Controllers
                 ReportInfo info = await _service.GetReportInfo(guid);
                 if (info.Status == ReportStatus.Completed.ToString())
                 {
-                    string location = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+                    string location = $"{Request.Scheme}://{Request.Host}";
                     info.Path = location + info.Path;
                 }
                 return Ok(info);
@@ -56,13 +56,13 @@ namespace ReportMicroservice.Controllers
         {
             try
             {
-                string location = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+                string location = $"{Request.Scheme}://{Request.Host}";
                 List<ReportForListDto> reportList = await _service.GetReports();
                 foreach (ReportForListDto item in reportList)
                 {
                     if (item.Status == ReportStatus.Completed.ToString())
                     {
-                        item.Path = location + item.Guid + ".xlsx";
+                        item.Path = location + item.Path;
                     }
                 }
                 return Ok(reportList);

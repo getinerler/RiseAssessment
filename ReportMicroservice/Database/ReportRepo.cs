@@ -45,7 +45,8 @@ namespace ReportMicroservice.Database
                     CreatedDate = x.CreatedDate,
                     Status = x.ExcelFileReady ? 
                         ReportStatus.Completed.ToString() : 
-                        ReportStatus.Processing.ToString()
+                        ReportStatus.Processing.ToString(),
+                    Path = "/ExcelFiles/" + x.Guid.ToString() + ".xlsx"
                 })
                 .ToListAsync();
         }
