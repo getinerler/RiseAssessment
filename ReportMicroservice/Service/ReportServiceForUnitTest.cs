@@ -76,7 +76,7 @@ namespace ReportMicroservice.Service
                     Status = x.ExcelFileReady ? 
                         ReportStatus.Completed.ToString() : 
                         ReportStatus.Processing.ToString(),
-                    Path = x.ExcelFileReady ? "/path/example/" + Guid.NewGuid() + ".xlsx" : string.Empty,
+                    Path = x.ExcelFileReady ? "/path/example/" + x.Guid.ToString() + ".xlsx" : string.Empty,
                 })
                 .ToList();
         }

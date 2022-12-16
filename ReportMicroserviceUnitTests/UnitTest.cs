@@ -37,7 +37,7 @@ namespace ReportMicroserviceUnitTests
             Guid testGuid = new Guid("ec2d9314-34e1-4f4e-9d03-a877920dfb5a");
             OkObjectResult okResult = await _controller.Info(testGuid) as OkObjectResult;
 
-            string excelPath = Directory.GetCurrentDirectory() + "/ExcelFiles/" + testGuid.ToString() + ".xlsx";
+            string excelPath = string.Empty;
 
             Assert.IsType<ReportInfo>(okResult.Value);
             Assert.Equal((okResult.Value as ReportInfo).Status, ReportStatus.Processing.ToString());

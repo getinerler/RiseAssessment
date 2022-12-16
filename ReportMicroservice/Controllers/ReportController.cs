@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ReportMicroservice.Dtos;
 using ReportMicroservice.Service;
 using System;
@@ -60,7 +61,7 @@ namespace ReportMicroservice.Controllers
         {
             try
             {
-                string location = $"{Request.Scheme}://{Request.Host}";
+                string location = $"{Request?.Scheme ?? "unit"}://{Request?.Host ?? new HostString("test")}";
                 List<ReportForListDto> reportList = await _service.GetReports();
                 foreach (ReportForListDto item in reportList)
                 {
