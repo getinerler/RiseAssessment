@@ -29,6 +29,10 @@ namespace ReportMicroservice.Controllers
                     string location = $"{Request.Scheme}://{Request.Host}";
                     info.Path = location + info.Path;
                 }
+                else
+                {
+                    info.Path = string.Empty;
+                }
                 return Ok(info);
             }
             catch (Exception ex)
@@ -63,6 +67,10 @@ namespace ReportMicroservice.Controllers
                     if (item.Status == ReportStatus.Completed.ToString())
                     {
                         item.Path = location + item.Path;
+                    }
+                    else
+                    {
+                        item.Path = string.Empty;
                     }
                 }
                 return Ok(reportList);
