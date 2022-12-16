@@ -4,6 +4,7 @@ using ContactMicroservice.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContactMicroservice.Controllers
@@ -32,6 +33,7 @@ namespace ContactMicroservice.Controllers
             }
         }
 
+        [HttpGet("GetPhoneBookItem")]
         public async Task<IActionResult> Get(Guid guid)
         {
             try
@@ -91,6 +93,80 @@ namespace ContactMicroservice.Controllers
                 }
                 await _service.Update(guid, key, value);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ReportInfo")]
+        public async Task<IActionResult> GetReportInfo()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                List<ReportInfoItemDto> list = await _service.GetReportInfo();
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        //PhoneMicroservice Methods
+        [HttpGet("Request")]
+        public async Task<IActionResult> GetRequest()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                Guid newGuid = await _service.GetRequest();
+                return Ok(newGuid);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("reportStatus")]
+        public async Task<IActionResult> GetReportStatus(Guid guid)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                ReportInfoDto reportStatus = await _service.GetReportStatus(guid);
+                return Ok(reportStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("reports")]
+        public async Task<IActionResult> GetReports()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return UnprocessableEntity(ModelState);
+                }
+                List<ReportForListItemDto> list = await _service.GetReports();
+                return Ok(list);
             }
             catch (Exception ex)
             {

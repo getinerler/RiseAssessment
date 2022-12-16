@@ -102,6 +102,54 @@ namespace ContactMicroservice.Service
                 .ToList();
         }
 
+        public async Task<List<ReportInfoItemDto>> GetReportInfo()
+        {
+            var resultList =
+                (from phones in list
+                 group phones by new { phones.Country, phones.City } into g
+                 select new ReportInfoItemDto
+                 {
+                     City = g.Key.City,
+                     Country = g.Key.Country,
+                     Count = g.Count()
+                 })
+                 .ToList();
+
+            return resultList;
+        }
+
+        public async Task<ReportInfoDto> GetReportStatus(Guid guid)
+        {
+            return new ReportInfoDto()
+            {
+                Path = $"/path/example/{Guid.NewGuid()}.xlsx",
+                Status = "Completed"
+            };
+        }
+
+        public async Task<List<ReportForListItemDto>> GetReports()
+        {
+            List<ReportForListItemDto> items = new List<ReportForListItemDto>(100);
+            for (int i = 0; i < 100; i++)
+            {
+                Guid guid = Guid.NewGuid();
+
+                items.Add(new ReportForListItemDto()
+                {
+                    CreatedDate = DateTime.Now,
+                    Guid = guid,
+                    Status = i % 2 == 0 ? "Completed" : "Processing",
+                    Path = $"/path/example/{guid}.xlsx",
+                });
+            }
+            return items;
+        }
+
+        public async Task<Guid> GetRequest()
+        {
+            return Guid.NewGuid();
+        }
+
         public async Task<Guid> Save(PhoneBookItemAddDto item)
         {
             Guid newGuid = Guid.NewGuid();

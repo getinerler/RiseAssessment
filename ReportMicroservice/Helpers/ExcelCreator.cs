@@ -43,12 +43,9 @@ namespace ReportMicroservice.Helpers
 
             IRow headerRow = sheet.CreateRow(rowNum++);
 
-            CreateCell(headerRow, columnCounter++, "Name", headerStyle);
-            CreateCell(headerRow, columnCounter++, "Surname", headerStyle);
-            CreateCell(headerRow, columnCounter++, "Phone", headerStyle);
-            CreateCell(headerRow, columnCounter++, "Email", headerStyle);
             CreateCell(headerRow, columnCounter++, "Country", headerStyle);
             CreateCell(headerRow, columnCounter++, "City", headerStyle);
+            CreateCell(headerRow, columnCounter++, "Count", headerStyle);
         }
 
         private void Fill()
@@ -61,12 +58,9 @@ namespace ReportMicroservice.Helpers
 
                 IRow row = sheet.CreateRow(rowNum++);
 
-                CreateCell(row, columnCounter++, val.Name ?? string.Empty);
-                CreateCell(row, columnCounter++, val.Surname ?? string.Empty);
-                CreateCell(row, columnCounter++, val.Phone ?? string.Empty);
-                CreateCell(row, columnCounter++, val.Mail ?? string.Empty);
                 CreateCell(row, columnCounter++, val.Country ?? string.Empty);
                 CreateCell(row, columnCounter++, val.City ?? string.Empty);
+                CreateCell(row, columnCounter++, val.Count.ToString() ?? string.Empty);
             }
         }
 

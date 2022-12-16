@@ -42,7 +42,11 @@ namespace ReportMicroservice.Database
                 .Select(x => new ReportForListDto() 
                 {
                     Guid = x.Guid,
-                    CreatedDate = x.CreatedDate
+                    CreatedDate = x.CreatedDate,
+                    Status = x.ExcelFileReady ? 
+                        ReportStatus.Completed.ToString() : 
+                        ReportStatus.Processing.ToString(),
+                    Path = "/ExcelFiles/" + x.Guid.ToString() + ".xlsx"
                 })
                 .ToListAsync();
         }

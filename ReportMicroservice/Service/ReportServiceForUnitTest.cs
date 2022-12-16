@@ -2,7 +2,6 @@
 using ReportMicroservice.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,42 +46,37 @@ namespace ReportMicroservice.Service
             {
                 return new ReportInfo()
                 {
-                    Status = ReportStatus.NotQueued
+                    Status = ReportStatus.NotQueued.ToString()
                 };
             }
 
-            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
-
             ReportInfo info = new ReportInfo()
             {
-                Status = !report.ExcelFileReady ? ReportStatus.Processing : ReportStatus.Completed,
-                Path = path + report.Guid + ".xlsx"
+                Status = !report.ExcelFileReady ?
+                    ReportStatus.Processing.ToString() :
+                    ReportStatus.Completed.ToString(),
+                Path = report.ExcelFileReady ? "/ExcelFiles/" + report.Guid + ".xlsx" : string.Empty
             };
 
             return info;
         }
 
-        public async Task<Guid> RequestReport(string country, string city)
+        public async Task<Guid> RequestReport()
         {
-            Report newReport = new Report()
-            {
-                ReportId = reports.Max(x => x.ReportId) + 1,
-                CreatedDate = new DateTime(2022, 12, 03),
-                ExcelFileReady = true,
-                Guid = Guid.NewGuid()
-            };
-
-            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid, country, city);
-            return newReport.Guid;
+            return Guid.NewGuid();
         }
 
         public async Task<List<ReportForListDto>> GetReports()
         {
             return reports
-                .Select(x => new ReportForListDto() 
+                .Select(x => new ReportForListDto()
                 {
                     CreatedDate = x.CreatedDate,
-                    Guid = x.Guid
+                    Guid = x.Guid,
+                    Status = x.ExcelFileReady ? 
+                        ReportStatus.Completed.ToString() : 
+                        ReportStatus.Processing.ToString(),
+                    Path = x.ExcelFileReady ? "/path/example/" + Guid.NewGuid() + ".xlsx" : string.Empty,
                 })
                 .ToList();
         }

@@ -6,16 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace ContactMicroservice
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration _config { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -23,11 +24,18 @@ namespace ContactMicroservice
             services.AddControllers();
 
             services.AddDbContext<DataContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IPhoneBookService, PhoneBookService>();
 
             services.AddTransient<IPhoneBookRepo, PhoneBookRepo>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contract Microservice API", Version = "v1" });
+            });
+
+            GlobalVariables.ReportMicroserviceLink = _config["ReportMicroserviceLink"];
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +50,13 @@ namespace ContactMicroservice
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ContractMicroserviceApi");
+            });
 
             app.UseEndpoints(endpoints =>
             {

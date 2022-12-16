@@ -1,32 +1,34 @@
 ﻿using Newtonsoft.Json;
 using ReportMicroservice.Dtos;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 
 namespace ReportMicroservice.Helpers
 {
     public class ContactMicroserviceHelper
     {
-        private readonly string url = "localhost:3000/ContactMicroservice/";
+        private readonly string url = GlobalVariables.ContactMicroserviceLink;
 
         public List<PhoneBookItem> GetPhoneBookItems(RabbitMqMessage message)
         {
-            string info = Get($"{url}/GetPhoneBookItems?country={message.Country}&city={message.City}");
+            string info = Get($"{url}ReportInfo", "");
             List<PhoneBookItem> items = JsonConvert.DeserializeObject<List<PhoneBookItem>>(info);
             return items;
         }
 
-        private string Get(string uri)
+        private string Get(string uri, string parameters)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            using (var client = new HttpClient(new HttpClientHandler 
+                { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
             {
-                return reader.ReadToEnd();
+                client.BaseAddress = new Uri(uri);
+                HttpResponseMessage response = client.GetAsync(parameters).Result;
+                response.EnsureSuccessStatusCode();
+                string result = response.Content.ReadAsStringAsync().Result;
+                return result;
             }
         }
     }

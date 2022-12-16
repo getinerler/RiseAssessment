@@ -14,7 +14,7 @@ namespace ReportMicroservice.Database
             _db = db;
         }
 
-        public async Task UpdateStatusAndPath(Guid guid)
+        public async Task UpdateStatus(Guid guid)
         {
             Report report = await _db.Reports.FirstOrDefaultAsync(x => x.Guid.Equals(guid));
             report.ExcelFileReady = true;

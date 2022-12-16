@@ -22,13 +22,16 @@ namespace ContactMicroservice.Database
         {
             PhoneBookItem item = new PhoneBookItem()
             {
+                Guid = Guid.NewGuid(),
                 Name = req.Name,
                 Surname = req.Surname,
                 Firm = req.Firm,
                 Phone = req.Phone,
                 Mail = req.Mail,
                 Country = req.Country,
-                City = req.City
+                City = req.City,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false
             };
 
             await _db.AddAsync(item);
@@ -108,6 +111,22 @@ namespace ContactMicroservice.Database
             }
 
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<List<ReportInfoItemDto>> GetReportInfo()
+        {
+            var list = await
+                (from phones in _db.PhoneBookItems
+                 group phones by new { phones.Country, phones.City } into g
+                 select new ReportInfoItemDto
+                 {
+                     City = g.Key.City,
+                     Country = g.Key.Country,
+                     Count = g.Count()
+                 })
+                 .ToListAsync();
+
+            return list;
         }
     }
 }

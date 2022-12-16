@@ -20,6 +20,8 @@ namespace ReportMicroservice.Hangfire
 
         //Hangfire başarısız olan işlemi kuyruğa tekrar almasın
         [AutomaticRetry(Attempts = 0)]
+        //Kuyruktaki işlem bitene kadar yeni işlem başlamasın.
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Run(IJobCancellationToken token, PerformContext performContext)
         {
             token.ThrowIfCancellationRequested();
@@ -32,9 +34,6 @@ namespace ReportMicroservice.Hangfire
             {
                 List<RabbitMqMessage> requests = await _hangfireService.GetRequests();
                 _hangfireLog.InfoLog($"Talepler çekildi.");
-
-                await _hangfireService.CreateDatabaseObjects(requests);
-                _hangfireLog.InfoLog($"Veritabanına kaydedildi..");
 
                 await _hangfireService.CreateExcelFiles(requests);
                 _hangfireLog.InfoLog($"Zamanlanmış görev başarıyla sonuçlandı.");

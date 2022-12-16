@@ -3,7 +3,6 @@ using ReportMicroservice.Dtos;
 using ReportMicroservice.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace ReportMicroservice.Service
@@ -25,25 +24,25 @@ namespace ReportMicroservice.Service
             {
                 return new ReportInfo() 
                 { 
-                    Status = ReportStatus.NotQueued 
+                    Status = ReportStatus.NotQueued.ToString()
                 };
             }
 
-            string path = Directory.GetCurrentDirectory() + "/ExcelFiles/";
-
             ReportInfo info = new ReportInfo()
             {
-                Status = !report.ExcelFileReady ? ReportStatus.Processing : ReportStatus.Completed,
-                Path = path + report.Guid + ".xlsx"
+                Status = !report.ExcelFileReady ?
+                    ReportStatus.Processing.ToString() : 
+                    ReportStatus.Completed.ToString(),
+                Path = "/ExcelFiles/" + report.Guid + ".xlsx"
             };
 
             return info;
         }
 
-        public async Task<Guid> RequestReport(string country, string city)
+        public async Task<Guid> RequestReport()
         {
             Report newReport = await _repo.CreateReport();
-            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid, country, city);
+            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid);
             return newReport.Guid;
         }
 
