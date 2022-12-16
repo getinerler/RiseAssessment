@@ -10,7 +10,7 @@ namespace ReportMicroservice.Helpers
 {
     public class ContactMicroserviceHelper
     {
-        private readonly string url = "https://localhost:44375/PhoneBook/";
+        private readonly string url = GlobalVariables.ContactMicroserviceLink;
 
         public List<PhoneBookItem> GetPhoneBookItems(RabbitMqMessage message)
         {

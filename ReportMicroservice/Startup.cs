@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using ReportMicroservice.Database;
 using ReportMicroservice.Hangfire;
 using ReportMicroservice.Service;
-using System;
 using System.IO;
 
 namespace ReportMicroservice
@@ -45,6 +44,9 @@ namespace ReportMicroservice
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report Microservice API", Version = "v1" });
             });
+
+            GlobalVariables.ContactMicroserviceLink = _config["ContactMicroserviceLink"];
+            GlobalVariables.RabbitMQServer = _config["RabbitMQServer"];
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

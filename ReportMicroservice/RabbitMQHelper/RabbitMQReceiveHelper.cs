@@ -12,7 +12,7 @@ namespace ReportMicroservice.RabbitMQHelper
     {
         public static void SendNewRequest(Guid guid)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = GlobalVariables.RabbitMQServer };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
 
