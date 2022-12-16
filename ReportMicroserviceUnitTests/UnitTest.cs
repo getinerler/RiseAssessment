@@ -40,7 +40,7 @@ namespace ReportMicroserviceUnitTests
             string excelPath = Directory.GetCurrentDirectory() + "/ExcelFiles/" + testGuid.ToString() + ".xlsx";
 
             Assert.IsType<ReportInfo>(okResult.Value);
-            Assert.Equal((okResult.Value as ReportInfo).Status, ReportStatus.Processing);
+            Assert.Equal((okResult.Value as ReportInfo).Status, ReportStatus.Processing.ToString());
             Assert.Equal((okResult.Value as ReportInfo).Path, excelPath);
         }
 
@@ -65,14 +65,14 @@ namespace ReportMicroserviceUnitTests
         [Fact]
         public async Task RequestReport_WhenCalled_ReturnsOkResult()
         {
-            IActionResult okResult = await _controller.RequestReport("Turkey", "İstanbul");
+            IActionResult okResult = await _controller.RequestReport();
             Assert.IsType<OkObjectResult>(okResult as OkObjectResult);
         }
 
         [Fact]
         public async Task RequestReport_ExistingGuidPassed_ReturnsRightItem()
         {
-            IActionResult okResult = await _controller.RequestReport("Turkey", "İstanbul");
+            IActionResult okResult = await _controller.RequestReport();
             OkObjectResult objResult = okResult as OkObjectResult;
             Assert.IsType<Guid>(objResult.Value);
         }
