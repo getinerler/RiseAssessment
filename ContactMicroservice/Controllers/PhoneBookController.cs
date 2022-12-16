@@ -139,7 +139,7 @@ namespace ContactMicroservice.Controllers
         }
 
         [HttpGet("reportStatus")]
-        public async Task<IActionResult> GetReportStatus()
+        public async Task<IActionResult> GetReportStatus(Guid guid)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace ContactMicroservice.Controllers
                 {
                     return UnprocessableEntity(ModelState);
                 }
-                ReportInfoItemDto reportStatus = await _service.GetReportStatus();
+                ReportInfoDto reportStatus = await _service.GetReportStatus(guid);
                 return Ok(reportStatus);
             }
             catch (Exception ex)
@@ -165,8 +165,8 @@ namespace ContactMicroservice.Controllers
                 {
                     return UnprocessableEntity(ModelState);
                 }
-                ReportInfoItemDto reportStatus = await _service.GetReports();
-                return Ok(reportStatus);
+                List<ReportForListItemDto> list = await _service.GetReports();
+                return Ok(list);
             }
             catch (Exception ex)
             {

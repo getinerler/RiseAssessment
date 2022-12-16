@@ -9,12 +9,12 @@ namespace ContactMicroservice.Helpers
 {
     public class ReportMicroserviceHelper
     {
-        private readonly static string url = "https://localhost:44375/PhoneBook/";
+        private readonly static string url = "https://localhost:44358/api/Report/";
 
         public static Guid RequestReport()
         {
             string response = Post(url);
-            return Guid.Parse(response);
+            return Guid.Parse(response.Trim('\"'));
         }
 
         public static ReportInfoDto GetInfo(Guid guid)

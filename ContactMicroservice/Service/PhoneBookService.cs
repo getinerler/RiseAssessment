@@ -70,7 +70,7 @@ namespace ContactMicroservice.Service
             return ReportMicroserviceHelper.RequestReport();
         }
 
-        public async Task<ReportInfoDto> GetReportInfo(Guid guid)
+        public async Task<ReportInfoDto> GetReportStatus(Guid guid)
         {
             return ReportMicroserviceHelper.GetInfo(guid);
         }

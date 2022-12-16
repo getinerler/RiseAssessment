@@ -52,10 +52,10 @@ namespace ReportMicroservice.Service
 
             ReportInfo info = new ReportInfo()
             {
-                Status = !report.ExcelFileReady ? 
-                    ReportStatus.Processing.ToString() : 
+                Status = !report.ExcelFileReady ?
+                    ReportStatus.Processing.ToString() :
                     ReportStatus.Completed.ToString(),
-                Path = report.ExcelFileReady ? "/ExcelFiles/" + report.Guid + ".xlsx" : ""
+                Path = report.ExcelFileReady ? "/ExcelFiles/" + report.Guid + ".xlsx" : string.Empty
             };
 
             return info;
@@ -63,25 +63,20 @@ namespace ReportMicroservice.Service
 
         public async Task<Guid> RequestReport()
         {
-            Report newReport = new Report()
-            {
-                ReportId = reports.Max(x => x.ReportId) + 1,
-                CreatedDate = new DateTime(2022, 12, 03),
-                ExcelFileReady = true,
-                Guid = Guid.NewGuid()
-            };
-
-            RabbitMQHelper.RabbitMQReceiveHelper.SendNewRequest(newReport.Guid);
-            return newReport.Guid;
+            return Guid.NewGuid();
         }
 
         public async Task<List<ReportForListDto>> GetReports()
         {
             return reports
-                .Select(x => new ReportForListDto() 
+                .Select(x => new ReportForListDto()
                 {
                     CreatedDate = x.CreatedDate,
-                    Guid = x.Guid
+                    Guid = x.Guid,
+                    Status = x.ExcelFileReady ? 
+                        ReportStatus.Completed.ToString() : 
+                        ReportStatus.Processing.ToString(),
+                    Path = x.ExcelFileReady ? "/path/example/" + Guid.NewGuid() + ".xlsx" : string.Empty,
                 })
                 .ToList();
         }

@@ -24,13 +24,11 @@ namespace ReportMicroservice.Controllers
             try
             {
                 ReportInfo info = await _service.GetReportInfo(guid);
-
-                if (!string.IsNullOrEmpty(info.Path))
+                if (info.Status == ReportStatus.Completed.ToString())
                 {
                     string location = $"{Request.Scheme}://{Request.Host}{Request.Path}";
                     info.Path = location + info.Path;
                 }
-
                 return Ok(info);
             }
             catch (Exception ex)
@@ -53,12 +51,20 @@ namespace ReportMicroservice.Controllers
             }
         }
 
-        [HttpGet("/reports")]
+        [HttpGet("reports")]
         public async Task<IActionResult> GetReports()
         {
             try
             {
+                string location = $"{Request.Scheme}://{Request.Host}{Request.Path}";
                 List<ReportForListDto> reportList = await _service.GetReports();
+                foreach (ReportForListDto item in reportList)
+                {
+                    if (item.Status == ReportStatus.Completed.ToString())
+                    {
+                        item.Path = location + item.Guid + ".xlsx";
+                    }
+                }
                 return Ok(reportList);
             }
             catch (Exception ex)

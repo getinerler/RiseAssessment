@@ -15,7 +15,7 @@ namespace ContactMicroservice.Service
         Task<List<ReportInfoItemDto>> GetReportInfo();
 
         Task<Guid> GetRequest();
-        Task<ReportInfoDto> GetReportInfo(Guid guid);
+        Task<ReportInfoDto> GetReportStatus(Guid guid);
         Task<List<ReportForListItemDto>> GetReports();
     }
 }

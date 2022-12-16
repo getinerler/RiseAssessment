@@ -118,11 +118,11 @@ namespace ContactMicroservice.Service
             return resultList;
         }
 
-        public async Task<ReportInfoDto> GetReportInfo(Guid guid)
+        public async Task<ReportInfoDto> GetReportStatus(Guid guid)
         {
             return new ReportInfoDto()
             {
-                Path = "/path/example/excel.xlsx",
+                Path = $"/path/example/{Guid.NewGuid()}.xlsx",
                 Status = "Completed"
             };
         }
@@ -132,10 +132,14 @@ namespace ContactMicroservice.Service
             List<ReportForListItemDto> items = new List<ReportForListItemDto>(100);
             for (int i = 0; i < 100; i++)
             {
+                Guid guid = Guid.NewGuid();
+
                 items.Add(new ReportForListItemDto()
                 {
                     CreatedDate = DateTime.Now,
-                    Guid = Guid.NewGuid()
+                    Guid = guid,
+                    Status = i % 2 == 0 ? "Completed" : "Processing",
+                    Path = $"/path/example/{guid}.xlsx",
                 });
             }
             return items;
