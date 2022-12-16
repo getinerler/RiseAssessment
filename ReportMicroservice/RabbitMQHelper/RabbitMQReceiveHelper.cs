@@ -52,6 +52,8 @@ namespace ReportMicroservice.RabbitMQHelper
                 autoAck: true,
                 consumer: consumer);
 
+            System.Threading.Thread.Sleep(2);
+
             connection.Dispose();
             channel.Dispose();
 
